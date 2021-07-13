@@ -1,6 +1,6 @@
 // manage different chats
 
-const UserAccount = require('../server/UserAccount');
+const UserAccount = require('./UserAccount');
 
 
 let CHAT_CODES = {}; // contains chat codes which in turn contain list of users 

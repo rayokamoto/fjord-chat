@@ -5,7 +5,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 
 const UserAccount = require('./server/UserAccount');
-const Game = require('./server/Game');
+const Chat = require('./server/Chat');
 
 const app = express();
 const server = http.Server(app);
@@ -45,16 +45,16 @@ io.on('connection', socket => {
     // create a chat
     socket.on('createChat', (data) => {
         try {
-            Game.isGameCodeTaken(data, (result) => {
+            Chat.isGameCodeTaken(data, (result) => {
                 if (result) { // if it fails 
                     socket.emit('createChatResponse', {success: false});
                 } else {
                     socket.emit('createChatResponse', {success: true});
-                    Game.addGameCode(socket, data, () => {
-                        Game.addUserToGame(socket, data, () => {
+                    Chat.addGameCode(socket, data, () => {
+                        Chat.addUserToGame(socket, data, () => {
                             // notify chat user has joined
                             let gameCode = UserAccount.USER_LIST[socket.id]["chat"]; // returns value of key
-                            let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode]);
+                            let gamePlayers = Object.keys(Chat.CHAT_CODES[gameCode]);
 
                             for (let i in gamePlayers) { // only pick out users from the game from the general socket dict
                                 UserAccount.USER_LIST[gamePlayers[i]]["socket"].emit('addChatAlert', `<b>${UserAccount.USER_LIST[socket.id]["username"]}</b>  has joined the chat`);
@@ -71,14 +71,14 @@ io.on('connection', socket => {
     // join a chat
     socket.on('joinChat', (data) => {
         try {
-        Game.addUserToGame(socket, data, (result) => {
+        Chat.addUserToGame(socket, data, (result) => {
             if (! result) {
                 socket.emit('joinChatResponse', {success: false}); // code is invalid
             } else {
                 socket.emit('joinChatResponse', {success: true}); // added user to game
                 // notify chat user has joined
                 let gameCode = UserAccount.USER_LIST[socket.id]["chat"];
-                let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode])
+                let gamePlayers = Object.keys(Chat.CHAT_CODES[gameCode])
 
                 for (let i in gamePlayers) { // only pick out users from the game from the general socket dict
                     UserAccount.USER_LIST[gamePlayers[i]]["socket"].emit('addChatAlert', `<b>${UserAccount.USER_LIST[socket.id]["username"]}</b> has joined the chat`);
@@ -96,12 +96,12 @@ io.on('connection', socket => {
         try {
             // delete user from game list--- which will then return them to lobby
             let gameCode = UserAccount.USER_LIST[socket.id]["chat"];
-            let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode]);
+            let gamePlayers = Object.keys(Chat.CHAT_CODES[gameCode]);
 
-            // delete Game.CHAT_CODES[gameCode][socket.id]; // remove user from game 
+            // delete Chat.CHAT_CODES[gameCode][socket.id]; // remove user from game 
             UserAccount.USER_LIST[socket.id]["chat"] = null; // user is not in any game (value is null)
 
-            console.log("USERS: ", Object.keys(Game.CHAT_CODES[gameCode]));
+            console.log("USERS: ", Object.keys(Chat.CHAT_CODES[gameCode]));
 
             for (let i in gamePlayers) { // only pick out users from the game from the general socket dict
                 UserAccount.USER_LIST[gamePlayers[i]]["socket"].emit('addChatAlert', `<b>${UserAccount.USER_LIST[socket.id]["username"]}</b> has left the chat`);
@@ -109,7 +109,7 @@ io.on('connection', socket => {
 
             // If chat has 0 people, delete it
             if (gamePlayers.length === 0) {
-                delete Game.CHAT_CODES[gameCode];
+                delete Chat.CHAT_CODES[gameCode];
             }
 
             socket.emit('leaveGameResponse');
@@ -128,7 +128,7 @@ io.on('connection', socket => {
         try {
             let playerName = UserAccount.USER_LIST[socket.id]["username"]; // gets name based on ID
             let gameCode = UserAccount.USER_LIST[socket.id]["chat"]; // get value (chat code)
-            let currentPlayers = Object.keys(Game.CHAT_CODES[gameCode]); // current players in chat session
+            let currentPlayers = Object.keys(Chat.CHAT_CODES[gameCode]); // current players in chat session
 
             data = String(data).trim();
             if (data.length > 2000) {
@@ -162,11 +162,11 @@ io.on('connection', socket => {
             // user has a name + they're in a game
             let gameCode = UserAccount.USER_LIST[socket.id]["chat"]; // user's ID points to game they're in
             if (UserAccount.USER_LIST[socket.id]["username"] !== undefined && gameCode !== null) {
-                let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode]);
+                let gamePlayers = Object.keys(Chat.CHAT_CODES[gameCode]);
 
                 for (let i in gamePlayers) {
                     if (gamePlayers[i] === socket.id) {
-                        delete Game.CHAT_CODES[gameCode][socket.id]; // remove user from game 
+                        delete Chat.CHAT_CODES[gameCode][socket.id]; // remove user from game 
                         delete gamePlayers[socket.id]; // from temp list
 
                         for (let i in gamePlayers) { // notify chat player has left
@@ -189,7 +189,7 @@ io.on('connection', socket => {
        
         // If game has 0 people, delete it
         //if (gamePlayers.length === 0) {
-        //    delete Game.CHAT_CODES[gameCode];
+        //    delete Chat.CHAT_CODES[gameCode];
         //}
     });
 
