@@ -15,7 +15,7 @@ startScreenSignup.onclick = () => {
 
 // result for signup
 socket.on('signupResponse', (data) => {
-    if (data.success) { // proceed to game if login successful
+    if (data.success) { // proceed to chat if login successful
         startScreen.style.display = 'none';
         header.style.display = 'inline-block';
         lobby.style.display = 'inline-block';
@@ -44,7 +44,7 @@ const joinChatConfirm = document.getElementById('joinChat-confirm');
 
 const chatInfo = document.getElementById('chatInfo');
 
-// create a game
+// create a chat
 createChatConfirm.onclick = () => {
 socket.emit('createChat', {code: createChatCode.value});
 }
@@ -69,12 +69,12 @@ socket.on('joinChatResponse', (data) => {
     }
 });
 
-// leave a game (return to lobby)
+// leave a chat (return to lobby)
 const returnToLobby = document.getElementById('returnToLobby');
 const returnToLobbyConfirm = document.getElementById('returnToLobby-confirm');
 
-returnToLobbyConfirm.onclick = () => { socket.emit('leaveGame'); }
-socket.on('leaveGameResponse', () => {
+returnToLobbyConfirm.onclick = () => { socket.emit('leaveChat'); }
+socket.on('leaveChatResponse', () => {
     lobby.style.display = 'inline-block';
     chatScreen.style.display = 'none';
     chatText.innerHTML = ""; // clear innerHTML for chat

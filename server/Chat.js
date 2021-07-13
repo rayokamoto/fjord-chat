@@ -15,7 +15,7 @@ CHAT_CODES = {
 */
 
 
-function isGameCodeTaken(data, callback) {
+function isChatCodeTaken(data, callback) {
     setTimeout( () => {
         let codeExists = false; // will stay false if no existing user is found
         let code = String(data.code).trim(); // convert to str, strip whitespace
@@ -24,9 +24,9 @@ function isGameCodeTaken(data, callback) {
             codeExists = true;
         }
 
-        let gameCodes = Object.keys(CHAT_CODES)
-        for (let i in gameCodes) {
-            if (code === String(gameCodes[i])) {
+        let chatCodes = Object.keys(CHAT_CODES)
+        for (let i in chatCodes) {
+            if (code === String(chatCodes[i])) {
                 codeExists = true;
                 break;
             }
@@ -37,22 +37,22 @@ function isGameCodeTaken(data, callback) {
 }
 
 
-function addUserToGame(socket, data, callback) {
+function addUserToChat(socket, data, callback) {
     setTimeout( () => {
         let codeExists = false;
         
-        for (let game in CHAT_CODES) {
-            if (String(data.code) === game) {
+        for (let chat in CHAT_CODES) {
+            if (String(data.code) === chat) {
                 codeExists = true;
-                //CHAT_CODES[game].push(socket.id); 
-                CHAT_CODES[game][String(socket.id)] = {}; // add user to the game (game code: {})
+                //CHAT_CODES[chat].push(socket.id); 
+                CHAT_CODES[chat][String(socket.id)] = {}; // add user to the chat (chat code: {})
                 
                 UserAccount.USER_LIST[socket.id]["chat"] = String(data.code);
 
 
-                let currentUsers = String(Object.values(CHAT_CODES[game]))
-                console.log(`CURRENT USERS IN ${game}: ${currentUsers}`);
-                console.log(`${socket.id} --- Name: ${UserAccount.USER_LIST[socket.id]["username"]} --- Game code: ${UserAccount.USER_LIST[socket.id]["chat"]}\n`);
+                let currentUsers = String(Object.values(CHAT_CODES[chat]))
+                console.log(`CURRENT USERS IN ${chat}: ${currentUsers}`);
+                console.log(`${socket.id} --- Name: ${UserAccount.USER_LIST[socket.id]["username"]} --- Chat code: ${UserAccount.USER_LIST[socket.id]["chat"]}\n`);
 
                 break;
             }
@@ -62,11 +62,11 @@ function addUserToGame(socket, data, callback) {
     }, 10);
 }
 
-function addGameCode(socket, data, callback) {
+function addChatCode(socket, data, callback) {
     setTimeout( () => {
         CHAT_CODES[String(data.code)] = {}; // "code": {}
 
-        // addUserToGame(socket, data, callback);
+        // addUserToChat(socket, data, callback);
         
         callback() // no return statement, hence callback is void
     }, 10);
@@ -74,7 +74,7 @@ function addGameCode(socket, data, callback) {
 
 
 module.exports.CHAT_CODES = CHAT_CODES;
-module.exports.isGameCodeTaken = isGameCodeTaken;
-module.exports.addGameCode = addGameCode;
+module.exports.isChatCodeTaken = isChatCodeTaken;
+module.exports.addChatCode = addChatCode;
 
-module.exports.addUserToGame = addUserToGame;
+module.exports.addUserToChat = addUserToChat;
