@@ -1,6 +1,5 @@
 // main app
 
-
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -30,14 +29,11 @@ io.on('connection', socket => {
         UserAccount.isUsernameTaken(data, (result, error) => { //get callback result
             if (result) { // if true (is UNsuccessful)
                 socket.emit('signupResponse', {success: false, error: error});
-                
-            }
-            else {
+            } else {
                 UserAccount.addUser(socket, data, () => {
                     // when a new client connects
                     socket.emit('signupResponse', {success: true});
                     console.log(`--- USER CONNECTED: ${UserAccount.USER_LIST[socket.id]["username"]} (Socket ID: ${socket.id})`)
-         
                 });
             }
         });
@@ -52,12 +48,10 @@ io.on('connection', socket => {
             Game.isGameCodeTaken(data, (result) => {
                 if (result) { // if it fails 
                     socket.emit('createChatResponse', {success: false});
-                }
-                else {
+                } else {
                     socket.emit('createChatResponse', {success: true});
                     Game.addGameCode(socket, data, () => {
                         Game.addUserToGame(socket, data, () => {
-
                             // notify chat user has joined
                             let gameCode = UserAccount.USER_LIST[socket.id]["chat"]; // returns value of key
                             let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode]);
@@ -65,16 +59,12 @@ io.on('connection', socket => {
                             for (let i in gamePlayers) { // only pick out users from the game from the general socket dict
                                 UserAccount.USER_LIST[gamePlayers[i]]["socket"].emit('addChatAlert', `<b>${UserAccount.USER_LIST[socket.id]["username"]}</b>  has joined the chat`);
                             }
-
-
                         });
                     });
                 }
             });
         }
-        catch (TypeError) {
-            console.error()
-        }
+        catch (TypeError) {console.error();}
     });
 
     
@@ -84,10 +74,8 @@ io.on('connection', socket => {
         Game.addUserToGame(socket, data, (result) => {
             if (! result) {
                 socket.emit('joinChatResponse', {success: false}); // code is invalid
-            }
-            else {
+            } else {
                 socket.emit('joinChatResponse', {success: true}); // added user to game
-
                 // notify chat user has joined
                 let gameCode = UserAccount.USER_LIST[socket.id]["chat"];
                 let gamePlayers = Object.keys(Game.CHAT_CODES[gameCode])
@@ -128,7 +116,7 @@ io.on('connection', socket => {
         }
         catch (TypeError) {
             console.log(`--- ERROR CAUGHT:`);
-            console.error()
+            console.error();
         }
 
     });
@@ -145,8 +133,7 @@ io.on('connection', socket => {
             data = String(data).trim();
             if (data.length > 2000) {
                 UserAccount.USER_LIST[socket.id]["socket"].emit('addChatAlert', `<b>Your message cannot exceed 2000 characters!</b>`);
-            }
-            else if (data !== "") {
+            } else if (data !== "") {
                 let re1 = new RegExp('<', 'g');
                 data = data.replace(re1, "&lt;").replace(new RegExp('>', 'g'), "&gt;");
                 // console.log(data)
@@ -171,7 +158,6 @@ io.on('connection', socket => {
         try {
             //console.log(socket.id)
             console.log(`--- USER DISCONNECTED: ${UserAccount.USER_LIST[socket.id]["username"]} (SOCKET ID: ${socket.id})`);
-
             // if user is in a game but they close or reload tab
             // user has a name + they're in a game
             let gameCode = UserAccount.USER_LIST[socket.id]["chat"]; // user's ID points to game they're in
@@ -181,8 +167,6 @@ io.on('connection', socket => {
                 for (let i in gamePlayers) {
                     if (gamePlayers[i] === socket.id) {
                         delete Game.CHAT_CODES[gameCode][socket.id]; // remove user from game 
-
-
                         delete gamePlayers[socket.id]; // from temp list
 
                         for (let i in gamePlayers) { // notify chat player has left
@@ -194,11 +178,8 @@ io.on('connection', socket => {
             }
 
             delete UserAccount.USER_LIST[socket.id] // delete from list of users (which incl sockets)
-            
         }
-        catch (TypeError) {
-            console.log(`--- USER DISCONNECTED: Username was undefined.`)
-        }
+        catch (TypeError) { console.log(`--- USER DISCONNECTED: Username was undefined.`); }
         
 
         // if server is restarted and a user refreshes tab, their socket ID will remain
@@ -216,9 +197,8 @@ io.on('connection', socket => {
 
     // remove sockets with no name from user list
     for (let i in UserAccount.USER_LIST) {
-        if (i === undefined) {
+        if (i === undefined)
             delete UserAccount.USER_LIST[i];
-        }
     }
 
 });
