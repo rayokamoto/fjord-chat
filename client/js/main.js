@@ -19,19 +19,16 @@ socket.on('signupResponse', (data) => {
         startScreen.style.display = 'none';
         header.style.display = 'inline-block';
         lobby.style.display = 'inline-block';
-    }
-    else if (data.error === "missingRequiredField") {
+    } else if (data.error === "missingRequiredField") {
         startScreenUsername.placeholder = "This field is required";
         startScreenUsername.style.color = "#ff0000";
-    }
-    else {
+    } else {
         let errorMsg = "Username taken.";
         alert(errorMsg);
         //startScreen.innerHTML += `<div class="error-message">${errorMsg}</div>`;
         //alert("Username taken.");
     }
 });
-
 
 
 
@@ -55,23 +52,19 @@ socket.on('createChatResponse', (data) => {
     if (data.success) {
         lobby.style.display = 'none';
         chatScreen.style.display = 'inline-block';
-    }
-    else {
+    } else {
         alert("Chat name is taken. Try another one.");
     }
 });
 
 
 // join a chat
-joinChatConfirm.onclick = () => {
-    socket.emit('joinChat', {code: joinChatCode.value});
-}
+joinChatConfirm.onclick = () => { socket.emit('joinChat', {code: joinChatCode.value}); }
 socket.on('joinChatResponse', (data) => {
     if (data.success) {
         lobby.style.display = 'none';
         chatScreen.style.display = 'inline-block';
-    }
-    else {
+    } else {
         alert("Chat name does not exist.");
     }
 });
@@ -80,14 +73,9 @@ socket.on('joinChatResponse', (data) => {
 const returnToLobby = document.getElementById('returnToLobby');
 const returnToLobbyConfirm = document.getElementById('returnToLobby-confirm');
 
-returnToLobbyConfirm.onclick = () => {
-    socket.emit('leaveGame');
-}
+returnToLobbyConfirm.onclick = () => { socket.emit('leaveGame'); }
 socket.on('leaveGameResponse', () => {
     lobby.style.display = 'inline-block';
     chatScreen.style.display = 'none';
-    
-    // clear innerHTML for chat 
-    chatText.innerHTML = "";
-
+    chatText.innerHTML = ""; // clear innerHTML for chat
 });

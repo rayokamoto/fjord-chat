@@ -20,9 +20,8 @@ function getTimestamp() {
     let date = new Date();
     let hours = date.getHours(); 
     let mins = date.getMinutes();
-    if (String(mins).length !== 2) {
+    if (String(mins).length !== 2)
         mins = `0${mins}`
-    }
     let timestamp = `<p class="chat-timestamp">Sent at ${hours}:${mins}</p>`;
     return timestamp;
 }
