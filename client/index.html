@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fjord: Not Discord | Beta</title>
+    <link href="../client/img/website/transparent.png" rel="icon" type="image/png">
+    
+    <!-- Stylesheets -->
+    <link href="../client/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../client/css/chat.css" rel="stylesheet" type="text/css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <p id="beta-tag">Public beta ─ v0.2</p>
+
+    <!-- hidden on home page -->
+    <header id="header">
+        <h2>Fjord</h2>
+    </header>
+
+
+    <!-- Start - logins, etc. -->
+    <div id="startScreen">
+        <h1>Fjord</h1>
+        <h3></h3>
+
+        <div id="signup">
+            <input id="startScreen-username" type="text" placeholder="Enter a username"><br>
+            <button id="startScreen-signup"><p>Enter Chat Lobby</p></button>
+        </div>
+
+        <div id="start-info">
+            <p style="margin:auto; width:90%; color:#2c2e30; font-size: 1.2rem; text-align: justify;">
+            A fjord is a long, deep, narrow body of water that reaches far inland. Fjords are often set in a U-shaped valley with steep walls of rock on either side.
+            <br><br>
+            Fjords are found mainly in Norway, Chile, New Zealand, Canada, Greenland, and the U.S. state of Alaska. Sognefjorden, a fjord in Norway, is more than 160 kilometers (nearly 100 miles) long.
+            <br><br>
+            Fjords were created by glaciers. In the Earth's last ice age, glaciers covered just about everything. Glaciers move very slowly over time, and can greatly alter the landscape once they have moved through an area. This process is called glaciation.
+            <br><br>
+            Glaciation carves deep valleys. This is why fjords can be thousands of meters deep. Fjords are usually deepest farther inland, where the glacial force was strongest.
+            <br><br>
+            Some features of fjords include coral reefs and rocky islands called skerries.
+            <br><br>
+            Some of the largest coral reefs are found at the bottom of fjords in Norway. They are home to several types of fish, plankton and sea anemones. Some coral reefs are also found in New Zealand. Scientists know much less about these deep, cold-water reefs than they do about tropical coral reefs. But they have learned that the living things in cold-water reefs prefer total darkness. Organisms in cold-water reefs have also adapted to life under high pressure. At the bottom of a fjord, the water pressure can be hundreds or even thousands of kilograms per square meter. Few organisms can survive in this cold, dark habitat.
+            <br><br>
+            Skerries are also found around fjords. A skerry is a small, rocky island created through glaciation. Most of the Scandinavian coastline is cut into thousands of little blocks of land. These jagged bits of coastline are skerries. The U.S. states of Washington and Alaska also have skerries.
+            <br><br>
+            Even though skerries can be hard to get around in a boat, fjords are generally calm and protected. This makes them popular harbors for ships.
+            <br><br><br>
+            Source: <a href="https://www.nationalgeographic.org/encyclopedia/fjord/">National Geographic</a>
+            <br><br>
+            </p>
+
+            <h4>It's super easy!</h4>
+            <h3>> Enter a username</h3>
+            <h3>> Create or join a chat room</h3>
+            <h3>> Start chatting!</h3>
+        </div>
+    </div>
+
+
+    <!-- Create/join chats + additional info about the chat -->
+    <div id="lobby">
+        <div id="chatOptions">
+            <div class="container-half">
+                <h4>Create a chat</h4>
+                <input id="createChat-code" class="chat-code" type="text" placeholder="Enter the chat name"><br>
+                <button id="createChat-confirm" class="enter-chat">Create Chatroom</button>
+            </div>
+
+            <div class="container-half">
+                <h4>Join a chat</h4>
+                <input id="joinChat-code" class="chat-code" type="text" placeholder="Enter the chat name"><br>
+                <button id="joinChat-confirm" class="enter-chat">Join Chatroom</button>
+            </div>
+        </div>
+        
+        <div id="chatInfo">
+            <h3>TIPS & INFO</h3>
+            <ul>
+                <li>To change your username, reload the page.</li>
+                <li>You can create/leave multiple chat rooms.</li>
+            </ul>
+        </div>  
+    </div>
+
+
+    <!-- Chat -->
+    <div id="chatScreen">
+        <div id=returnToLobby>
+            <button id="returnToLobby-confirm">Return to Lobby</button>
+        </div>
+
+        <div id="chat">
+            <div id="chat-text">
+                <div class="chat-alert">Hello! Welcome to the chat.</div>
+            </div>
+            
+            <form id="chat-form">
+                <input id="chat-input" type="text" placeholder="Message...">
+            </form>
+        </div>
+    </div>
+
+
+    <footer id="footer">
+        <p>&copy; 2020. All rights reserved. </p>
+    </footer>
+
+
+    <script src="../client/js/socket.js"></script>
+    <script src="../client/js/main.js"></script>
+    <script src="../client/js/chat.js"></script>
+
+</body>
+</html>

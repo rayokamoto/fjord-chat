@@ -1,0 +1,17 @@
+{
+  "name": "fjord-chat-beta",
+  "version": "0.2.0",
+  "description": "Fjord: Not Discord - Alternative online communication platform",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

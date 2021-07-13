@@ -1,0 +1,278 @@
+
+
+/* 
+* HEADER
+*
+*/
+#header {
+    display: none;
+    overflow-wrap: normal;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    background: #4e6f9b;
+
+}
+
+#header h2 {
+    display: inline;
+    color: #e0e0e0;
+    font-family: 'uni_sans_heavy';
+    font-size: 3rem;
+    text-align: left;
+}
+
+#header h5 {
+    display: inline;
+    padding-left: 3rem;
+    color: #e0e0e0;
+    font-family: 'whitney bold';
+    font-size: 1.8rem;
+    text-align: left;
+}
+
+
+.error-message {
+    display: inline-block;
+    width: 60%;
+    margin: auto;
+    background-color: #ffffff;
+    color: #c50000;
+
+}
+
+
+#footer {
+    position: static;
+    display: inline-block;
+    width: 100%;
+    padding: 0 1rem;
+    background-color: #4e6f9b;
+
+}
+
+#footer p {
+    color: #000000;
+}
+
+
+/* 
+* Starting screen <div>
+*/
+#startScreen {
+    width: 100%;
+    height: fit-content;
+    padding-top: 1rem;
+    margin: auto;
+
+    background: #4e6f9b;
+    color: #d8dee9;
+
+    
+}
+
+#startScreen h3 {
+    font-weight: 700;
+    text-align: center;
+}
+
+/* login <div> */
+#signup {
+    box-sizing: border-box;
+    width: 70%;
+    padding: 0 2rem 5rem 2rem;
+    margin: auto;
+
+}
+
+/* <input> field for username*/
+#startScreen-username {
+    width: 100%;
+    height: 2.8rem;
+    padding: 1.6rem 1.4rem;
+    margin: auto;
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.5rem;
+
+}
+
+/* Login button */
+#startScreen-signup {
+    width: 100%;
+    padding: 0.2rem;
+    margin: auto;
+    border-radius: 4px;
+    border: none;
+    background-color: #d8dee9;
+    color: #4e6f9b;
+    transition: 1s;
+
+}
+#startScreen-signup:hover {
+    background-color: #4e6f9b;
+    cursor: powhitney;
+    /*transition: 1s;*/
+}
+#startScreen-signup > p {
+    padding-left: 20px;
+    color: #4e6f9b;
+    font-size: 1.5rem;
+    line-height: 0;
+    transition: 1s;
+}
+#startScreen-signup:hover > p {
+    right: 0px;
+    padding-right: 25px;
+    color: #d8dee9;
+    /*transition: 1s;   - this only transitions when hovered on, not hovered off*/
+}
+#startScreen-signup > p::after {    
+    position: relative;
+    right: -20px;
+
+    color: #4e6f9b;
+    text-align: center;
+    transition: 0.8s;
+    opacity: 0;
+    content: '   ▶';
+    
+}
+#startScreen-signup:hover > p::after {
+    right: 0;
+    color: #d8dee9;
+    opacity: 1;
+}
+
+#start-info {
+    padding: 20rem;
+    padding-top: 2rem;
+    margin: auto 0rem;
+    background: #81a1c1;
+}
+
+#start-info > h3 {
+    text-align: left;
+}
+
+
+/*
+* Lobby screen <div>
+*
+*
+*/
+#lobby {
+    display: none; /* display: flex; when visible */
+    width: 100%;
+    padding: 1rem;
+    background-color: rgb(129, 161, 193);
+}
+
+
+#lobby #chatOptions {
+    display: inline-flex;
+    width: 100%;
+    height: 20rem;
+    background-color: #81a1c1;
+}
+
+#lobby #gameInfo {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 10rem;
+    background-color: #1cb7ff;
+}
+
+#lobby #chatOptions .container-half {
+    float: left;
+    width: 50%;
+    height: 18rem;
+    padding: 1rem;
+    background-color: #009643;
+}
+
+/* Entry field for game code */
+#lobby #chatOptions .container-half .chat-code {
+    width: 70%;
+    height: 2rem;
+    padding: 0.5rem;
+    margin: auto;
+    margin-bottom: 0.5rem;
+
+    border-radius: 2px;
+    border: 1px solid #000000;
+}
+
+/* Button for submitting game code */
+#lobby #chatOptions .container-half .enter-chat {
+    width: 50%;
+    padding: 0.5rem;
+    margin: auto;
+    border-radius: 4px;
+    border: 2px solid #000000;
+    background: #ffffff;
+    color: #000000;
+    cursor: powhitney;
+    transition: 0.4s;
+}
+#lobby #chatOptions .container-half .enter-chat:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+/*
+* Game screen <div>
+*
+*
+*/
+
+/* When user is logged in, display: inline-block <div> */
+#chatScreen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    margin: 2rem;
+}
+
+
+#chat {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+/* <div> element representing a message sent */
+#chat-text {
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    width: 100%;
+    height: 40rem;
+    margin: auto;
+    border: 1px solid #000000;
+    
+}
+/* <input> for chat */
+#chat-input {
+    width: 100%;
+    margin: auto;
+    height: 2.5rem;
+    padding: 1rem;
+    font-family: 'whitney', sans-serif;
+}
+
+
+/* Chat message (sent by user) <div> */
+#chat-text > .chat-msg {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+/* Chat alert <div> */
+#chat-text > .chat-alert {
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    background-color: #adadad;
+}
+
+.chat-timestamp {
+    display: inline;
+    color: #7c7c7c;
+    font-size: 0.6rem;
+}
