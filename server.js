@@ -4,12 +4,14 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 
-const UserAccount = require('./server/UserAccount');
-const Chat = require('./server/Chat');
-
 const app = express();
-const server = http.Server(app);
 const io = socketIO(server);
+const server = http.Server(app);
+
+const Chat = require('./server/Chat');
+const Messages = require('./server/Messages');
+const UserAccount = require('./server/UserAccount');
+
 
 const PORT = process.env.PORT || 3000
 
@@ -125,28 +127,12 @@ io.on('connection', socket => {
     // SEND MESSAGES TO CHAT
     socket.on('sendMsgToServer', (data) => {
         try {
-            let playerName = UserAccount.USER_LIST[socket.id]["username"]; // gets name based on ID
-            let chatCode = UserAccount.USER_LIST[socket.id]["chat"]; // get value (chat code)
-            let currentPlayers = Object.keys(Chat.CHAT_CODES[chatCode]); // current players in chat session
-
-            data = String(data).trim();
-            if (data.length > 2000) {
-                UserAccount.USER_LIST[socket.id]["socket"].emit('addChatAlert', `<b>Your message cannot exceed 2000 characters!</b>`);
-            } else if (data !== "") {
-                let re1 = new RegExp('<', 'g');
-                data = data.replace(re1, "&lt;").replace(new RegExp('>', 'g'), "&gt;");
-                // console.log(data)
-                for (let i in currentPlayers) { // only send to contextual chat
-                    UserAccount.USER_LIST[currentPlayers[i]]["socket"].emit('addChatMsg', {user: playerName, message: data});
-                }
-            }
+            Messages.sendMessage(data, socket)
         }
         catch (TypeError) {
             console.log(`--- ERROR CAUGHT:`);
             console.error();
-
         }
-
     });
 
 
@@ -168,7 +154,7 @@ io.on('connection', socket => {
                         delete Chat.CHAT_CODES[chatCode][socket.id]; // remove user from chat 
                         delete chatUsers[socket.id]; // from temp list
 
-                        for (let i in chatUsers) { // notify chat player has left
+                        for (let i in chatUsers) { // notify chat user has left
                             UserAccount.USER_LIST[chatUsers[i]]["socket"].emit('addChatAlert', `<b>${UserAccount.USER_LIST[socket.id]["username"]} has left the chat</b>`);
                         }
                         break;
